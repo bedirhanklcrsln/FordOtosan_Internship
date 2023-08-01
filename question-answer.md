@@ -4,17 +4,17 @@
 ### *Machine Learning*
 Machine learning is learning the algorithm by using the data it has.
 ### *Unsupervised vs Supervised learning difference*  
-In supervised learning, we give labeled data to the machine so that it can use them while grouping objects.  
-In unsupervised learning, objects are grouped by comparing their various properties to each other.  
+Both use dataset. Unsupervised Learning doesn't need the tags of the data.
 ### *Deep Learning*
-It is a subfield of machine learning that uses one or more artificial neural networks to obtain new data using labeled data.
+It is a subfield of machine learning. It uses the labeled data to model the data and learn the data pattern.
 ### *Neural Network*
 It is a machine learning algorithm that works like a human brain.
 ### *Convolution Neural Network*
 It is a deep learning algorithm. it increases the accuracy of object detection by filtering the image.  
 Advantages over NN: high accuracy , weight sharing.
 ### *Segmentation Task in Neural Network*
-Segmentation is classify the pixels in the image where the object is located , both supervised and unsupervised.
+Segmentation classifies the pixels of the image and divides it into regions and defines the boundaries of the object in the image.
+It is supervised
 ### *Classification Task in Neural Network*
 Classification is the classification of the image according to the object in the image , it is supervised.
 ### *Comparing Classification and Segmentation*
@@ -55,7 +55,7 @@ Validation dataset tells us how well the model is learning and adapting,
 ### *Epoch*
 Epoch is refers to one cycle through the full training dataset.
 ### *Batch*
-Batch is running repetitive processes automatically
+Batch is a subset of the dataset that the model uses to update the parameters at each iteration during training.
 ### *Iteration*
 Iteration is a repetition of something
 example : prime number determination
