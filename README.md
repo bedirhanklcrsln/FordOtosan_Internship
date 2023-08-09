@@ -12,9 +12,3 @@
 <br />
 
 
-## mask_on_image.py
-<h3 align="center">Freespace and Solid Line masks on image</h3>  
-
-<p align="center">
-  <img width="900" height="600" src="data/masked_images/cfc_000254_388a51e56525449796c6c07728494a51.png">
-</p>
