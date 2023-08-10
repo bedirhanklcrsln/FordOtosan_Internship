@@ -6,7 +6,7 @@ import cv2
 import tqdm
 from PIL import Image
 from constant import JSON_DIR, MASK_DIR
-
+import matplotlib.pyplot as plt
 
 
 # Create a list which contains every file name in "jsons" folder
@@ -43,10 +43,28 @@ for json_name in tqdm.tqdm(json_list):
     for obj in json_dict["objects"]:
         # Check the objects ‘classTitle’ is ‘Freespace’ or not.
         if obj['classTitle']=='Freespace':
-            mask = cv2.fillPoly(mask, np.array([obj['points']['exterior']]), color=(255,50,50))
-            for obj in json_dict["objects"]:
-              if obj['classTitle']=='Solid Line':
-                mask = cv2.polylines(mask,np.array([obj['points']['exterior']]),False,color=(150,255,150),thickness=5)
-            # cv.line() ile dashed line yap
+            mask = cv2.fillPoly(mask, np.array([obj['points']['exterior']]), color=1)
+
+    for obj in json_dict["objects"]:
+        if obj['classTitle']=='Dashed Line':
+                mask = cv2.polylines(mask,np.array([obj['points']['exterior']]),False,color=2)
+
+    for obj in json_dict["objects"]:
+        if obj['classTitle']=='Exit/Merge Line':
+                mask = cv2.polylines(mask,np.array([obj['points']['exterior']]),False,color=3)
+
+    for obj in json_dict["objects"]:
+        if obj['classTitle']=='Solid Line':
+                mask = cv2.polylines(mask,np.array([obj['points']['exterior']]),False,color=4)
+    
+    
+            
+    
+    
+   
+
+    # cv.line() ile dashed line yap
+
+
     # Write mask image into MASK_DIR folder
-            cv2.imwrite(mask_path, mask.astype(np.uint8))
+    cv2.imwrite(mask_path, mask.astype(np.uint8))
