@@ -241,8 +241,8 @@ def one_hot_encoder(data, n_class):
         print("It should be same with the layer dimension, in this case it is 2")
     
     
-    if len(np.unique(data)) != n_class:
-        print("The number of unique values in 'data' must be equal to the n_class")
+    #if len(np.unique(data)) != n_class:
+        #print("The number of unique values in 'data' must be equal to the n_class")
         
 
     # Define array whose dimensison is (width, height, number_of_class)

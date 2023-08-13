@@ -1,5 +1,6 @@
 import torch.nn as nn
 import torch.nn.functional as F
+import torch
 from constant import *
 
 
@@ -12,8 +13,9 @@ class FoInternNet(nn.Module):
         self.n_classes = n_classes
 
         # Here, layers are given as example, please feel free to modify them. 
-        self.conv1 = nn.Conv2d(in_channels=3, out_channels=224, kernel_size=1, stride=1)
-        self.conv2 = nn.Conv2d(in_channels=224, out_channels=n_classes, kernel_size=1, stride=1)
+        self.conv1 = nn.Conv2d(in_channels=3, out_channels=64, kernel_size=1, stride=1)
+        self.conv2 = nn.Conv2d(in_channels=64, out_channels=32, kernel_size=1, stride=1)
+        self.conv3 = nn.Conv2d(in_channels=32, out_channels=n_classes, kernel_size=1, stride=1)
 
     def forward(self, x):
         """This function feeds input data into the model layers defined.
@@ -23,7 +25,8 @@ class FoInternNet(nn.Module):
         x = self.conv1(x)
         x = F.relu(x)
         x = self.conv2(x)
-        x = nn.Softmax(dim=1)(x)
+        x = F.relu(x)
+        x = torch.sigmoid(self.conv3(x))
         return x
 
 

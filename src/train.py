@@ -3,8 +3,11 @@ from preprocess import tensorize_image, tensorize_mask, image_mask_check
 import os
 import glob
 import numpy as np
+import torch
 import torch.nn as nn
 import torch.optim as optim
+import torch.nn.functional as F
+import joblib
 
 ######### PARAMETERS ##########
 valid_size = 0.3
@@ -75,28 +78,48 @@ model = FoInternNet(input_size=input_shape, n_classes=5)
 criterion = nn.BCELoss()
 optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 
+
 # IF CUDA IS USED, IMPORT THE MODEL INTO CUDA
 if cuda:
     model = model.cuda()
 
 
-for ind in range(steps_per_epoch):
-        optimizer.zero_grad()
-        batch_input_path_list = test_input_path_list[batch_size*ind:batch_size*(ind+1)]
-        batch_label_path_list = test_label_path_list[batch_size*ind:batch_size*(ind+1)]
-        Xbatch = tensorize_image(batch_input_path_list, input_shape, cuda)
-        ybatch = tensorize_mask(batch_label_path_list, input_shape, n_classes, cuda)
+for epoch in range(5):
+    for (train_input, train_label) in zip(train_input_path_list, train_label_path_list):
+        Xbatch = tensorize_image([train_input], input_shape, cuda)
+        ybatch = tensorize_mask([train_label], input_shape, n_classes, cuda)
+
+        model.zero_grad()
         output = model(Xbatch)
         loss = criterion(output, ybatch)
         loss.backward()
         optimizer.step()
-        accuracy = (output.round() == ybatch).float().mean()
-        print(f"Accuracy {accuracy}")
-        print(f'Finished ind : {ind}, latest loss : {loss}')
-        if(len(batch_input_path_list)==0):
-            break
+    print(f"loss : {loss} in epoch : {epoch}")
+# save the model to disk
+filename = 'finalized_model.sav'
+joblib.dump(model, filename)
 
-# TRAINING THE NEURAL NETWORK
+
+loaded_model = joblib.load(filename)
+
+
+accuracy = (output.round() == ybatch).float().mean()
+print(f"Train Accuracy {accuracy}")
+
+with torch.no_grad():
+    for (valid_input_path, valid_label_path) in zip(valid_input_path_list, valid_label_path_list):
+                Xbatch = tensorize_image([valid_input_path], input_shape, cuda)
+                ybatch = tensorize_mask([valid_label_path], input_shape, n_classes, cuda)
+                output = loaded_model(Xbatch)
+
+
+accuracy = (output.round() == ybatch).float().mean()
+print(f"Validation Accuracy {accuracy}")
+
+
+ 
+# some time later...
+ 
 
  
    
