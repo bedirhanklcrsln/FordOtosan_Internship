@@ -1,5 +1,5 @@
-<<<<<<< Updated upstream
-# Freespace Segmentation with Fully Convolutional Neural Network (FCNN)
+
+# Freespace , Solid Line , Dashed Line and Exit/Merge Line Segmentation with Fully Convolutional Neural Network (FCNN)
 <br />
 <br />
 
@@ -10,11 +10,7 @@
   <img width="900" height="600" src="data/masks/cfc_000254_388a51e56525449796c6c07728494a51.png">
 </p>
 <br />
-<br />
-
 
 =======
-# Freespace , Solid Line , Dashed Line and Exit/Merge Line Segmentation with Fully Convolutional Neural Network (FCNN)
 
 
->>>>>>> Stashed changes
