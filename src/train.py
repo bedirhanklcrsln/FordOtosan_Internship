@@ -8,6 +8,11 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 import joblib
+from matplotlib.pylab import plt
+from pickle import dump
+from pickle import load
+from numpy import arange
+
 
 ######### PARAMETERS ##########
 valid_size = 0.3
@@ -83,8 +88,10 @@ optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 if cuda:
     model = model.cuda()
 
-
-for epoch in range(5):
+trlist = []
+tracc = []
+#epochs = range(1, 2)
+for epoch in range(epochs):
     for (train_input, train_label) in zip(train_input_path_list, train_label_path_list):
         Xbatch = tensorize_image([train_input], input_shape, cuda)
         ybatch = tensorize_mask([train_label], input_shape, n_classes, cuda)
@@ -94,7 +101,23 @@ for epoch in range(5):
         loss = criterion(output, ybatch)
         loss.backward()
         optimizer.step()
+        taccuracy = (output.round() == ybatch).float().mean()
     print(f"loss : {loss} in epoch : {epoch}")
+    print(f"Train Accuracy {taccuracy}")
+    tracc.append(taccuracy)  
+     # print(float(loss))
+   # print(loss.item())
+    trlist.append(loss.item())
+
+   # print(trlist)
+
+ 
+# Generate a sequence of integers to represent the epoch numbers
+
+
+
+
+
 # save the model to disk
 filename = 'finalized_model.sav'
 joblib.dump(model, filename)
@@ -103,18 +126,47 @@ joblib.dump(model, filename)
 loaded_model = joblib.load(filename)
 
 
-accuracy = (output.round() == ybatch).float().mean()
-print(f"Train Accuracy {accuracy}")
-
-with torch.no_grad():
+#taccuracy = (output.round() == ybatch).float().mean()
+#print(f"Train Accuracy {taccuracy}")
+valacc= []
+valloss = []
+#with torch.no_grad():
+for epoch in range(epochs):
     for (valid_input_path, valid_label_path) in zip(valid_input_path_list, valid_label_path_list):
-                Xbatch = tensorize_image([valid_input_path], input_shape, cuda)
-                ybatch = tensorize_mask([valid_label_path], input_shape, n_classes, cuda)
-                output = loaded_model(Xbatch)
+            Xbatch = tensorize_image([valid_input_path], input_shape, cuda)
+            ybatch = tensorize_mask([valid_label_path], input_shape, n_classes, cuda)
+            model.zero_grad()
+            output = model(Xbatch)
+            loss = criterion(output, ybatch)
+            loss.backward()
+            optimizer.step()
+            vaccuracy = (output.round() == ybatch).float().mean()
+    print(f"Validation Accuracy {vaccuracy}")
+    print(f"Validation loss : {loss} in epoch : {epoch}")
+    valacc.append(vaccuracy)
+    valloss.append(loss.item())
 
 
-accuracy = (output.round() == ybatch).float().mean()
-print(f"Validation Accuracy {accuracy}")
+
+epochss = range(1, 21)
+plt.plot(epochss, trlist, label = 'Training Loss')
+plt.plot(epochss, valloss, label = 'Validation Loss')
+plt.title('Training  Loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.xticks(arange(0, 21, 1))
+plt.legend()
+plt.show()
+
+plt.plot(epochss,tracc,label = 'Training Accuracy')
+plt.plot(epochss,valacc, label = 'Validation Accuracy')
+plt.title('Training - Validation Accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy')
+plt.xticks(arange(0, 21, 1))
+plt.legend()
+plt.show()
+#print(f"Validation Accuracy {vaccuracy}")
 
 
  
