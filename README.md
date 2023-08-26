@@ -145,8 +145,8 @@ for epoch in range(epochs):
   <h2 align="center">Accuracy and Loss Graphs</h2>
 </p>
 <p align="left">
-  <img width="500" height="500" src="data/accura.png">
-  <img width=500" height="500" src="data/loss.png">
+  <img width="400" height="500" src="data/acc.png">
+  <img width=400" height="500" src="data/loss.png">
 </p>
 <p align="right">
   
