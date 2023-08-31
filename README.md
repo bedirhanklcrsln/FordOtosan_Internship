@@ -1,9 +1,12 @@
 
-# Freespace , Solid Line , Dashed Line and Exit/Merge Line Segmentation with Fully Convolutional Neural Network (FCNN)
-<br />
-<br />
+# Freespace , Solid Line , Dashed Line and Exit/Merge Line Segmentation with Fully Convolutional Neural Network (FCNN)  
+## The goal of the project  
+Being able to segmentation **Freespace** , **Solid Line** , **Dashed Line** and **Exit/Merge Line**   on the highway.    
 
-# json2mask.py
+Terms used in the project and their meanings `question-answer.md`
+
+
+## json2mask.py
 
 **Converts data in json to mask**
 ```
@@ -25,7 +28,7 @@ for obj in json_dict["objects"]:
                 mask = cv2.polylines(mask,np.array([obj['points']['exterior']]),False,color=4)
 ```
 
-# mask_on_image.py
+## mask_on_image.py
 **Read mask and change the color of the pixels on the original image that corresponds to the mask part and create new image**
 ```
  mask  = cv2.imread(mask_path, 0).astype(np.uint8)
@@ -43,7 +46,7 @@ for obj in json_dict["objects"]:
 </p>
 <br />
 
-# preprocess.py
+## preprocess.py
 **We need to prepare the data to feed the network: we have - data/masks, data/images - directories where we prepared masks and input images. Then, convert each file/image into a tensor for our purpose.**  
 
 tensorize_image function:
@@ -74,7 +77,7 @@ one_hot_encoder function:
         encoded_data[data == i] = labels[i]
     return encoded_data
 ```
-# model.py
+## model.py
 **Building neural network model**
 ```
 class FoInternNet(nn.Module):
@@ -101,7 +104,7 @@ class FoInternNet(nn.Module):
         return x
 ```
 
-# train.py
+## train.py
 **Training model**
   
 Training funciton:
@@ -145,8 +148,8 @@ for epoch in range(epochs):
   <h2 align="center">Accuracy and Loss Graphs</h2>
 </p>
 <p align="left">
-  <img width="400" height="500" src="data/acc.png">
-  <img width=400" height="500" src="data/loss.png">
+  <img width="400" height="400" src="data/acc.png">
+  <img width=400" height="400" src="data/loss.png">
 </p>
 <p align="right">
   
