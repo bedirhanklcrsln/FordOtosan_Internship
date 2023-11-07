@@ -55,16 +55,7 @@ for json_name in tqdm.tqdm(json_list):
 
     for obj in json_dict["objects"]:
         if obj['classTitle']=='Solid Line':
-                mask = cv2.polylines(mask,np.array([obj['points']['exterior']]),False,color=4)
-    
-    
-            
-    
-    
-   
-
-    # cv.line() ile dashed line yap
-
+                mask = cv2.polylines(mask,np.array([obj['points']['exterior']]),False,color=4) 
 
     # Write mask image into MASK_DIR folder
     cv2.imwrite(mask_path, mask.astype(np.uint8))

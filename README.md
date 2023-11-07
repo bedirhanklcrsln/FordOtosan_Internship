@@ -42,7 +42,7 @@ for obj in json_dict["objects"]:
 ```
 ### Freespace and Solid Line masks
 <p align="center">
-  <img width="750" height="500" src="data/masks/cfc_000254_388a51e56525449796c6c07728494a51.png">
+  <img width="750" height="500" src="data/masked_images/cfc_000254_388a51e56525449796c6c07728494a51.png">
 </p>
 <br />
 

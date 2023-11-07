@@ -105,8 +105,6 @@ for epoch in range(epochs):
     print(f"loss : {loss} in epoch : {epoch}")
     print(f"Train Accuracy {taccuracy}")
     tracc.append(taccuracy)  
-     # print(float(loss))
-   # print(loss.item())
     trlist.append(loss.item())
 
    # print(trlist)

@@ -121,11 +121,9 @@ def tensorize_mask(mask_path_list, output_shape, n_class, cuda=False):
 
         # Apply One-Hot Encoding to image
         mask = one_hot_encoder(mask, n_class)
-        #print(mask_path)
-        #print("\n")
+        
         # Change input structure according to pytorch input structure
         torchlike_mask = torchlike_data(mask)
-
 
         local_mask_list.append(torchlike_mask)
 
@@ -167,9 +165,7 @@ def image_mask_check(image_path_list, mask_path_list):
         image_name = image_path.split("/")[-1].split("\\")[-1]
         mask_name = mask_path.split("/")[-1].split("\\")[-1]
         if(image_name!= mask_name):
-            print(image_name)
-            print(mask_name)
-            print(image_path)
+            print("sa")
             print("Image and mask folders do not match")
             return False
         else:
@@ -204,16 +200,9 @@ def torchlike_data(data):
     n_channels = data.shape[2]
     # Create and empty image whose dimension is similar to input
     torchlike_data_output = geek.empty((n_channels, data.shape[0], data.shape[1]))
-    
-    #########################################
-    # CODE
-    #########################################
-
     # For each channel
     for channel in range(n_channels):
      torchlike_data_output[channel] = data[:,:,channel]
-
-        
 
     return torchlike_data_output
 
@@ -247,18 +236,11 @@ def one_hot_encoder(data, n_class):
 
     # Define array whose dimensison is (width, height, number_of_class)
     encoded_data = np.zeros((*data.shape, n_class), dtype=np.uint)
-
     # Define labels
     labels = [[0,0,0,0,0],[0,0,0,0,1],[0,0,0,1,0],[0,0,0,1,1],[0,0,1,0,0]]
 
-
     for i in range(n_class):
-        encoded_data[data == i] = labels[i]
-    
-    
-
-    
-      
+        encoded_data[data == i] = labels[i]    
 
     return encoded_data
 ############################ TODO END ################################
